@@ -8,6 +8,7 @@ public class Arena {
 
 	private ArrayList<Location> spawns;
 	private ArrayList<Location> chests;
+	private ArrayList<Location> blocks;
 	
 	private ArrayList<String> spectators;
 	
@@ -26,6 +27,7 @@ public class Arena {
 		setSpawns(new ArrayList<>());
 		setChests(new ArrayList<>());
 		setSpectators(new ArrayList<>());
+		setBlocks(new ArrayList<>());
 		
 		team = false;
 		
@@ -86,6 +88,14 @@ public class Arena {
 
 	public void setSpectators(ArrayList<String> spectators) {
 		this.spectators = spectators;
+	}
+
+	public ArrayList<Location> getBlocks() {
+		return blocks;
+	}
+
+	public void setBlocks(ArrayList<Location> blocks) {
+		this.blocks = blocks;
 	}
 	
 }

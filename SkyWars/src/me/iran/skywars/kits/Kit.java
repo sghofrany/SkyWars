@@ -1,9 +1,9 @@
-package me.iran.skywars.gametype;
+package me.iran.skywars.kits;
 
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class GameType {
+public class Kit {
 
 	private String name;
 	private String permission;
@@ -13,9 +13,7 @@ public class GameType {
 	private ItemStack[] armor;
 	private ItemStack[] inv;
 
-	private ItemStack[] loot;
-	
-	public GameType(String name) {
+	public Kit(String name) {
 		this.setName(name);
 		
 		this.setPermission("skywars." + name);
@@ -59,14 +57,6 @@ public class GameType {
 
 	public void setInv(ItemStack[] inv) {
 		this.inv = inv;
-	}
-
-	public ItemStack[] getLoot() {
-		return loot;
-	}
-
-	public void setLoot(ItemStack[] loot) {
-		this.loot = loot;
 	}
 	
 }

@@ -30,6 +30,8 @@ public class DuelManager {
 
 		ArenaManager.getManager().teleportSolo(duel);
 		
+		ArenaManager.getManager().getAvailable().remove(arena);
+		
 		duels.add(duel);
 		
 	}

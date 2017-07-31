@@ -18,6 +18,7 @@ public class ArenaManager {
 	private File file = null;
 	
 	private static ArrayList<Arena> arenas = new ArrayList<>();
+	private static ArrayList<Arena> available = new ArrayList<>();
 	
 	public ArenaManager() {}
 	
@@ -73,7 +74,7 @@ public class ArenaManager {
 				arena.setTeam(team);
 				
 				arenas.add(arena);
-				
+				available.add(arena);
 			}
 			
 			Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.GREEN + "[Success] Found arena.yml for SkyWars and loaded in all arenas");
@@ -191,6 +192,7 @@ public class ArenaManager {
 		Arena arena = new Arena(name);
 		
 		arenas.add(arena);
+		available.add(arena);
 		
 		player.sendMessage(ChatColor.YELLOW + "Arena " + ChatColor.GOLD + name + ChatColor.YELLOW + " created successfully");
 	}
@@ -222,5 +224,13 @@ public class ArenaManager {
 			
 		}
 		
+	}
+	
+	public ArrayList<Arena> getArenas() {
+		return arenas;
+	}
+	
+	public ArrayList<Arena> getAvailable() {
+		return available;
 	}
 }
