@@ -1,0 +1,8 @@
+name: SkyWars
+main: me.iran.skywars.SkyWars
+version: DEV-SNAPSHOT-1.0
+commands:
+  arena:
+    description: Create an arena
+  duel:
+    description: test
