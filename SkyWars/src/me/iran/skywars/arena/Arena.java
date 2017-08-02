@@ -5,12 +5,14 @@ import java.util.ArrayList;
 import org.bukkit.Location;
 
 public class Arena {
-
+	
 	private ArrayList<Location> spawns;
+	private ArrayList<Location> tempspawn;
 	private ArrayList<Location> chests;
 	private ArrayList<Location> blocks;
 	
 	private ArrayList<String> spectators;
+	private ArrayList<String> players;
 	
 	private String name;
 	private String id;
@@ -18,6 +20,8 @@ public class Arena {
 	private boolean team;
 	
 	private int refillTimer;
+	private int min;
+	private int time;
 	
 	public Arena (String id) {
 		
@@ -25,11 +29,17 @@ public class Arena {
 		this.name = id;
 		
 		setSpawns(new ArrayList<>());
+		setTempspawn(new ArrayList<>());
 		setChests(new ArrayList<>());
 		setSpectators(new ArrayList<>());
 		setBlocks(new ArrayList<>());
+		setPlayers(new ArrayList<>());
 		
 		team = false;
+		
+		setMin(1);
+		
+		setTime(-1);
 		
 		setRefillTimer(120);
 	}
@@ -97,5 +107,37 @@ public class Arena {
 	public void setBlocks(ArrayList<Location> blocks) {
 		this.blocks = blocks;
 	}
-	
+
+	public ArrayList<Location> getTempspawn() {
+		return tempspawn;
+	}
+
+	public void setTempspawn(ArrayList<Location> tempspawn) {
+		this.tempspawn = tempspawn;
+	}
+
+	public int getMin() {
+		return min;
+	}
+
+	public void setMin(int min) {
+		this.min = min;
+	}
+
+	public ArrayList<String> getPlayers() {
+		return players;
+	}
+
+	public void setPlayers(ArrayList<String> players) {
+		this.players = players;
+	}
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
+	}
+
 }

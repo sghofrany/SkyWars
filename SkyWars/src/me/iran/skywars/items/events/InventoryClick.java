@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
 
 import me.iran.skywars.SkyWars;
+import me.iran.skywars.arena.ArenaManager;
 import me.iran.skywars.duel.DuelManager;
 import me.iran.skywars.utils.Queue;
 
@@ -53,8 +54,14 @@ public class InventoryClick implements Listener {
 			
 			if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN.toString() + ChatColor.BOLD + "Solo Unranked")) {
 				event.setCancelled(true);
-				queue.joinSoloUnrankedQueue(player);
-				player.closeInventory();
+				
+				if(!DuelManager.getManager().isPlayerInDuel(player)) {
+					ArenaManager.getManager().teleportToRandomArena(player);
+					player.closeInventory();
+				} else {
+					player.closeInventory();
+					player.sendMessage(ChatColor.RED.toString() + ChatColor.BOLD + "Can't do this while in a match!");
+				}
 			}
 			
 		}

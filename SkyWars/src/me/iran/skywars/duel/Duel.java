@@ -14,10 +14,13 @@ public class Duel {
 	
 	private String winner;
 	
+	private int time;
+	
 	public Duel(Arena arena) {
 		
 		setPlayers(new ArrayList<String>());
 		setAlive(new ArrayList<String>());
+		setTime(0);
 		
 		this.setArena(arena);
 	}
@@ -53,5 +56,14 @@ public class Duel {
 	public void setAlive(ArrayList<String> alive) {
 		this.alive = alive;
 	}
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
+		this.time = time;
+	}
+
 	
 }

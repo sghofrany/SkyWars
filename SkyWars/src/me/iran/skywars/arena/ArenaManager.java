@@ -11,7 +11,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
 import me.iran.skywars.SkyWars;
-import me.iran.skywars.duel.Duel;
+import me.iran.skywars.customevents.PlayerJoinArenaEvent;
 
 public class ArenaManager {
 
@@ -63,7 +63,7 @@ public class ArenaManager {
 						Location loc = new Location(Bukkit.getWorld(world), x, y, z);
 						
 						arena.getSpawns().add(loc);
-						
+						arena.getTempspawn().add(loc);
 					}
 					
 				}
@@ -208,21 +208,48 @@ public class ArenaManager {
 		return null;
 	}
 	
-	
-	public void teleportSolo(Duel duel) {
+	public void teleportToRandomArena(Player player) {
 		
-		Arena arena = duel.getArena();
-		
-		for(int i = 0; i < arena.getSpawns().size(); i++) {
-			
-			Player p = Bukkit.getPlayer(duel.getPlayers().get(i));
-			
-			if(p != null) {
-				p.teleport(arena.getSpawns().get(i));
-				p.sendMessage(ChatColor.GREEN + "Teleported to arena " + arena.getName());
+		if(available.size() > 0) {
+			for(Arena arena : available) {
+				if(arena.getTime() != -1 && arena.getTime() > 0 && !arena.isTeam()) {
+					
+					if(arena.getPlayers().size() > 0 && arena.getPlayers().size() < arena.getSpawns().size()) {
+						if(!arena.getPlayers().contains(player.getName())) {
+							
+							arena.getPlayers().add(player.getName());
+							player.teleport(arena.getTempspawn().get(0));
+							arena.getTempspawn().remove(arena.getTempspawn().get(0));
+							
+							Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinArenaEvent(player, arena));
+							return;
+							
+						}
+					}
+
+				}
+
 			}
 			
+			Arena arena = available.get(0);
+			
+			arena.setTime(120);
+			
+			arena.getPlayers().add(player.getName());
+			
+			player.teleport(arena.getTempspawn().get(0));
+			
+			arena.getTempspawn().remove(arena.getTempspawn().get(0));
+			
+			player.sendMessage(ChatColor.GREEN + "Teleported to arena " + arena.getName() + " " + arena.getTime() + " left");
+			
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerJoinArenaEvent(player, arena));
+			
+		} else {
+			player.sendMessage(ChatColor.RED + "It seems like all of our arenas are in use, please try again in a few minutes!");
 		}
+		
+
 		
 	}
 	

@@ -5,13 +5,16 @@ import org.bukkit.ChatColor;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.iran.skywars.arena.ArenaManager;
+import me.iran.skywars.arena.ArenaRunnables;
 import me.iran.skywars.arena.cmd.ArenaCommands;
 import me.iran.skywars.arena.events.EditEvents;
+import me.iran.skywars.arena.events.PlayerJoinArena;
+import me.iran.skywars.duel.events.DuelDeathEvent;
 import me.iran.skywars.items.InventoryRunnables;
 import me.iran.skywars.items.events.CancelBlockPlace;
-import me.iran.skywars.items.events.InventoryClick;
 import me.iran.skywars.items.events.CancelItemDrop;
 import me.iran.skywars.items.events.InteractWithItemsInHand;
+import me.iran.skywars.items.events.InventoryClick;
 import me.iran.skywars.items.events.OnJoinItems;
 import me.iran.skywars.utils.Queue;
 
@@ -21,6 +24,7 @@ public class SkyWars extends JavaPlugin {
 	
 	private InventoryRunnables invRun = new InventoryRunnables(this);
 	private Queue queue = new Queue();
+	private ArenaRunnables arenaRun = new ArenaRunnables();
 	
 	public static SkyWars getInstance() {
 		return instance;
@@ -44,9 +48,13 @@ public class SkyWars extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new CancelBlockPlace(this), this);
 		Bukkit.getPluginManager().registerEvents(new InventoryClick(this), this);
 		Bukkit.getPluginManager().registerEvents(new InteractWithItemsInHand(this), this);
+		Bukkit.getPluginManager().registerEvents(new DuelDeathEvent(this), this);
+		Bukkit.getPluginManager().registerEvents(new PlayerJoinArena(), this);
 		
 		invRun.runTaskTimer(this, 20, 20);
-		queue.runTaskTimer(this, 20, 20);
+		//queue.runTaskTimer(this, 20, 20);
+		arenaRun.runTaskTimer(this, 20, 20);
+		
 	}
 	
 	public void onDisable() {
