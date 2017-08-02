@@ -76,6 +76,21 @@ public class ArenaManager {
 					arena.setWorld(world);
 					
 				}
+				
+			
+				if (config.contains("arena." + s + ".lobby")) {
+
+					double x = config.getDouble("arena." + s + ".lobby.x");
+					double y = config.getDouble("arena." + s + ".lobby.y");
+					double z = config.getDouble("arena." + s + ".lobby.z");
+					float pitch = config.getFloat("arena." + s + ".lobby.pitch");
+					float yaw = config.getFloat("arena." + s + ".lobby.yaw");
+
+					Location loc = new Location(Bukkit.getWorld(arena.getWorld()), x, y, z, yaw, pitch);
+
+					arena.setLobby(loc);
+
+				}
 
 				arena.setName(name);
 				arena.setId(id);
@@ -141,6 +156,21 @@ public class ArenaManager {
 						
 					}
 					
+					if(arena.getLobby() != null) {
+						
+						config.createSection("arena." + arena.getId() + ".lobby.x");
+						config.createSection("arena." + arena.getId() + ".lobby.y");
+						config.createSection("arena." + arena.getId() + ".lobby.z");
+						config.createSection("arena." + arena.getId() + ".lobby.pitch");
+						config.createSection("arena." + arena.getId() + ".lobby.yaw");
+						
+						config.set("arena." + arena.getId() + ".lobby.x", arena.getLobby().getX());
+						config.set("arena." + arena.getId() + ".lobby.y", arena.getLobby().getY());
+						config.set("arena." + arena.getId() + ".lobby.z", arena.getLobby().getZ());
+						config.set("arena." + arena.getId() + ".lobby.pitch", arena.getLobby().getPitch());
+						config.set("arena." + arena.getId() + ".lobby.yaw", arena.getLobby().getYaw());
+					}
+					
 					config.set("arena." + arena.getId() + ".name", arena.getName());
 					config.set("arena." + arena.getId() + ".id", arena.getId());
 					config.set("arena." + arena.getId() + ".refill", arena.getRefillTimer());
@@ -189,7 +219,21 @@ public class ArenaManager {
 					config.createSection("arena." + arena.getId() + ".world");
 					config.set("arena." + arena.getId() + ".world", arena.getSpawns().get(0).getWorld().getName());
 					
+				}
+				
+				if(arena.getLobby() != null) {
 					
+					config.createSection("arena." + arena.getId() + ".lobby.x");
+					config.createSection("arena." + arena.getId() + ".lobby.y");
+					config.createSection("arena." + arena.getId() + ".lobby.z");
+					config.createSection("arena." + arena.getId() + ".lobby.pitch");
+					config.createSection("arena." + arena.getId() + ".lobby.yaw");
+					
+					config.set("arena." + arena.getId() + ".lobby.x", arena.getLobby().getX());
+					config.set("arena." + arena.getId() + ".lobby.y", arena.getLobby().getY());
+					config.set("arena." + arena.getId() + ".lobby.z", arena.getLobby().getZ());
+					config.set("arena." + arena.getId() + ".lobby.pitch", arena.getLobby().getPitch());
+					config.set("arena." + arena.getId() + ".lobby.yaw", arena.getLobby().getYaw());
 				}
 				
 			}
@@ -236,6 +280,17 @@ public class ArenaManager {
 		return null;
 	}
 	
+	public boolean isPlayerInArena(Player player) {
+		
+		for(Arena arena : arenas) {
+			if(arena.getPlayers().contains(player.getName())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
 	public void teleportToRandomArena(Player player) {
 		
 		if(available.size() > 0) {
@@ -243,11 +298,12 @@ public class ArenaManager {
 				if(arena.getTime() != -1 && arena.getTime() > 0 && !arena.isTeam()) {
 					
 					if(arena.getPlayers().size() > 0 && arena.getPlayers().size() < arena.getSpawns().size()) {
+						
 						if(!arena.getPlayers().contains(player.getName())) {
 							
 							arena.getPlayers().add(player.getName());
-							player.teleport(arena.getTempspawn().get(0));
-							arena.getTempspawn().remove(arena.getTempspawn().get(0));
+							
+							player.teleport(arena.getLobby());
 							
 							items.joinLobby(player);
 							
@@ -268,9 +324,10 @@ public class ArenaManager {
 			
 			arena.getPlayers().add(player.getName());
 			
-			player.teleport(arena.getTempspawn().get(0));
+			player.teleport(arena.getLobby());
+			/*player.teleport(arena.getTempspawn().get(0));
 			
-			arena.getTempspawn().remove(arena.getTempspawn().get(0));
+			arena.getTempspawn().remove(arena.getTempspawn().get(0));*/
 			
 			items.joinLobby(player);
 			

@@ -4,8 +4,6 @@ import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import me.iran.skywars.SkyWars;
@@ -45,6 +43,19 @@ public class DuelManager {
 			duel.getAlive().add(s);
 		}
 		
+		System.out.println(duel.getArena().getTempspawn().size());
+		
+		if(duel.getAlive().size() <= duel.getArena().getTempspawn().size()) {
+			
+			for(int i = 0; i < duel.getAlive().size(); i++) {
+				
+				Player player = Bukkit.getPlayer(duel.getAlive().get(i));
+				
+				player.teleport(duel.getArena().getTempspawn().get(i));
+				
+			}
+		}
+		
 		duels.add(duel);
 		
 		Bukkit.getServer().getPluginManager().callEvent(new DuelStartEvent(players, duel, duel.getArena()));
@@ -57,8 +68,6 @@ public class DuelManager {
 		if(duel == null) {
 			return;
 		}
-		
-		Arena arena = duel.getArena();
 		
 		if(duel.getAlive().size() == 1) {
 			

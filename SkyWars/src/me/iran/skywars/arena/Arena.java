@@ -11,6 +11,8 @@ public class Arena {
 	private ArrayList<Location> chests;
 	private ArrayList<Location> blocks;
 	
+	private Location lobby;
+	
 	private ArrayList<String> spectators;
 	private ArrayList<String> players;
 	
@@ -147,6 +149,14 @@ public class Arena {
 
 	public void setWorld(String world) {
 		this.world = world;
+	}
+
+	public Location getLobby() {
+		return lobby;
+	}
+
+	public void setLobby(Location lobby) {
+		this.lobby = lobby;
 	}
 
 }

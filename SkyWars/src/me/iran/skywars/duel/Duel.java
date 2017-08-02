@@ -17,8 +17,6 @@ public class Duel {
 	
 	private int time;
 	
-	private Kit kit;
-	
 	public Duel(Arena arena) {
 		
 		setPlayers(new ArrayList<String>());
@@ -67,14 +65,5 @@ public class Duel {
 	public void setTime(int time) {
 		this.time = time;
 	}
-
-	public Kit getKit() {
-		return kit;
-	}
-
-	public void setKit(Kit kit) {
-		this.kit = kit;
-	}
-
 	
 }

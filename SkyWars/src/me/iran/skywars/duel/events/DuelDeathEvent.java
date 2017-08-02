@@ -1,5 +1,6 @@
 package me.iran.skywars.duel.events;
 
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,7 +24,6 @@ public class DuelDeathEvent implements Listener {
 		event.setDeathMessage(null);
 		
 		Player player = event.getEntity();
-		Player killer = event.getEntity().getKiller();
 		
 		if(DuelManager.getManager().isPlayerInDuel(player)) {
 			
@@ -34,7 +34,7 @@ public class DuelDeathEvent implements Listener {
 				duel.getAlive().remove(player.getName());
 
 				if(duel.getAlive().size() == 1) {
-					DuelManager.getManager().endUnrankedSolo(killer);
+					DuelManager.getManager().endUnrankedSolo(Bukkit.getPlayer(duel.getAlive().get(0)));
 				}
 			
 			}

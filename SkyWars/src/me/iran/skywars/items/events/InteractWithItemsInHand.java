@@ -7,20 +7,14 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 
-import me.iran.skywars.SkyWars;
 import me.iran.skywars.arena.ArenaManager;
+import me.iran.skywars.duel.DuelManager;
 import me.iran.skywars.items.PlayerInventories;
 
 public class InteractWithItemsInHand implements Listener {
 
-	SkyWars plugin;
-	
 	private PlayerInventories inv = new PlayerInventories();
-	
-	public InteractWithItemsInHand(SkyWars plugin) {
-		this.plugin = plugin;
-	}
-	
+
 	@EventHandler
 	public void onInteract(PlayerInteractEvent event) {
 		
@@ -59,7 +53,13 @@ public class InteractWithItemsInHand implements Listener {
 			} else if(player.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.RED.toString() + ChatColor.BOLD + "Ranked Queue")) {
 				
 			} else if(player.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.RED.toString() + ChatColor.BOLD + "Leave Match")) {
-				ArenaManager.getManager().leaveArena(player);
+				
+				if(!DuelManager.getManager().isPlayerInDuel(player)) {
+					ArenaManager.getManager().leaveArena(player);
+				} else {
+					player.sendMessage(ChatColor.RED + "Can't leave while in a duel!");
+				}
+			
 			}
 			
 		}

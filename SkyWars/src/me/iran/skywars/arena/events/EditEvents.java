@@ -55,6 +55,12 @@ public class EditEvents implements Listener {
 					
 				}
 				
+				if(player.getItemInHand().getType() == Material.REDSTONE_BLOCK) {
+					
+					arena.setLobby(player.getLocation());
+					player.sendMessage(ChatColor.GOLD + "Set lobby location for arena " + arena.getName());
+				}
+				
 			}
 		}
 		

@@ -39,6 +39,7 @@ public class HotbarItems {
 		dsword.setItemMeta(dsMeta);
 		
 		player.getInventory().clear();
+		player.getInventory().setArmorContents(null);
 		
 		player.getInventory().setItem(0, book);
 		player.getInventory().setItem(1, diamond);
@@ -65,9 +66,26 @@ public class HotbarItems {
 		red.setItemMeta(rMeta);
 		
 		player.getInventory().clear();
+		player.getInventory().setArmorContents(null);
 		
 		player.getInventory().setItem(0, book);
 		player.getInventory().setItem(8, red);
+	}
+	
+	public void kit(Player player) {
+		
+		ItemStack book = new ItemStack(Material.BOOK, 1);
+		
+		ItemMeta bMeta = book.getItemMeta();
+		
+		bMeta.setDisplayName(ChatColor.GOLD.toString() + ChatColor.BOLD + "Kits");
+		
+		book.setItemMeta(bMeta);
+		
+		player.getInventory().clear();
+		player.getInventory().setArmorContents(null);
+		
+		player.getInventory().setItem(0, book);
 	}
 	
 }

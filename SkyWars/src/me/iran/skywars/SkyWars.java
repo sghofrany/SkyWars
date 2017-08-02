@@ -53,15 +53,15 @@ public class SkyWars extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new OnJoinItems(this), this);
 		Bukkit.getPluginManager().registerEvents(new CancelItemDrop(this), this);
 		Bukkit.getPluginManager().registerEvents(new CancelBlockPlace(this), this);
-		Bukkit.getPluginManager().registerEvents(new InventoryClick(this), this);
-		Bukkit.getPluginManager().registerEvents(new InteractWithItemsInHand(this), this);
+		Bukkit.getPluginManager().registerEvents(new InventoryClick(), this);
+		Bukkit.getPluginManager().registerEvents(new InteractWithItemsInHand(), this);
 		Bukkit.getPluginManager().registerEvents(new DuelDeathEvent(this), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerJoinArena(), this);
 		Bukkit.getPluginManager().registerEvents(new PlayerLeaveArena(), this);
 		Bukkit.getPluginManager().registerEvents(new DuelStart(), this);
 		Bukkit.getPluginManager().registerEvents(new DuelEnd(), this);
 		
-		invRun.runTaskTimer(this, 20, 20);
+		//invRun.runTaskTimer(this, 20, 20);
 		//queue.runTaskTimer(this, 20, 20);
 		arenaRun.runTaskTimer(this, 20, 20);
 		

@@ -8,10 +8,14 @@ import org.bukkit.event.Listener;
 
 import me.iran.skywars.customevents.DuelStartEvent;
 import me.iran.skywars.items.HotbarItems;
+import me.iran.skywars.items.events.InventoryClick;
+import me.iran.skywars.kits.Kit;
 
 public class DuelStart implements Listener {
 
 	private HotbarItems item = new HotbarItems();
+	
+	private InventoryClick kit = new InventoryClick();
 	
 	@SuppressWarnings("deprecation")
 	@EventHandler
@@ -26,7 +30,16 @@ public class DuelStart implements Listener {
 				p.getInventory().clear();
 				p.getInventory().setArmorContents(null);
 				
-				item.joinLobby(p);
+				if(kit.getChosenKit().containsKey(p.getName())) {
+					
+					Kit k = kit.getChosenKit().get(p.getName());
+					
+					p.getInventory().setContents(k.getInv());
+					p.getInventory().setArmorContents(k.getArmor());
+					
+				} else {
+					item.kit(p);
+				}
 				
 			}
 		}
