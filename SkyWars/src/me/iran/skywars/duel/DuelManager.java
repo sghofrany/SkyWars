@@ -3,16 +3,22 @@ package me.iran.skywars.duel;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 
 import me.iran.skywars.SkyWars;
 import me.iran.skywars.arena.Arena;
 import me.iran.skywars.arena.ArenaManager;
-import net.md_5.bungee.api.ChatColor;
+import me.iran.skywars.customevents.DuelEndEvent;
+import me.iran.skywars.customevents.DuelStartEvent;
+import me.iran.skywars.items.HotbarItems;
 
 public class DuelManager {
 
+	private HotbarItems items = new HotbarItems();
+	
 	private static ArrayList<Duel> duels = new ArrayList<>();
 	
 	private static DuelManager manager;
@@ -26,32 +32,24 @@ public class DuelManager {
 		return manager;
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void unrankedSolo(Arena arena, ArrayList<String> players) {
 		
 		Duel duel = new Duel(arena);
 		
-		duel.setPlayers(players);
+		for(String s : players) {
+			duel.getPlayers().add(s);
+		}
 		
 		for(String s : players) {
 			
 			duel.getAlive().add(s);
 		}
 		
-		for(Player p : Bukkit.getServer().getOnlinePlayers()) {
-			
-			if(duel.getPlayers().contains(p.getName())) {
-				
-				p.sendMessage(ChatColor.GOLD.toString() + ChatColor.BOLD + "Match started with " + duel.getPlayers().size() + " players!");
-				
-			}
-		}
-		
 		duels.add(duel);
 		
+		Bukkit.getServer().getPluginManager().callEvent(new DuelStartEvent(players, duel, duel.getArena()));
 	}
 	
-	@SuppressWarnings("deprecation")
 	public void endUnrankedSolo(Player player) {
 		
 		Duel duel = getDuelByPlayer(player);
@@ -60,34 +58,35 @@ public class DuelManager {
 			return;
 		}
 		
+		Arena arena = duel.getArena();
+		
 		if(duel.getAlive().size() == 1) {
 			
-			for(String s : duel.getPlayers()) {
-				System.out.println(s);
-			}
-			
 			duel.setWinner(duel.getAlive().get(0));
-			
-			for(Player p : Bukkit.getOnlinePlayers()) {
-				if(duel.getPlayers().contains(p.getName())) {
-					p.sendMessage("");
-					p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "WINNER: " + ChatColor.YELLOW + duel.getWinner());
-					p.sendMessage("");
-					p.sendMessage(ChatColor.GOLD + "Other Information goes here");
-				}
-			}
 
+			Bukkit.getServer().getPluginManager().callEvent(new DuelEndEvent(duel.getPlayers(), duel, duel.getArena()));
+			
 			Bukkit.getScheduler().scheduleSyncDelayedTask(SkyWars.getInstance(), new Runnable() {
+				
+				@SuppressWarnings("deprecation")
 				public void run() {
-					for(Player p : Bukkit.getOnlinePlayers()) {
+
+					for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+						
 						if(duel.getPlayers().contains(p.getName())) {
-							p.sendMessage(ChatColor.GREEN + "Removed from Arena");
+							
+							p.sendMessage(ChatColor.GREEN + "Teleported Spawn...");
+							
+							items.defaultItems(p);
+							
+							ArenaManager.getManager().removePlayerFromArena(p);
+							
+							duels.remove(duel);
+							
 						}
 					}
 				}
 			}, 60);
-			
-			duels.remove(duel);
 			
 		}
 		

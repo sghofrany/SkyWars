@@ -1,13 +1,12 @@
 package me.iran.skywars.arena.events;
 
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import me.iran.skywars.customevents.PlayerJoinArenaEvent;
-import me.iran.skywars.duel.DuelManager;
-import net.md_5.bungee.api.ChatColor;
 
 public class PlayerJoinArena implements Listener {
 
@@ -18,6 +17,13 @@ public class PlayerJoinArena implements Listener {
 		Player player = event.getPlayer();
 		
 		player.sendMessage(ChatColor.GREEN + "Teleported to arena " + event.getArena().getName());
+		
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			
+			if(event.getArena().getPlayers().contains(p.getName())) {
+				p.sendMessage(ChatColor.AQUA.toString() + player.getName() + ChatColor.GREEN + " has joined the match (" + event.getArena().getPlayers().size() + "/12)");
+			}
+		}
 		
 		if(event.getArena().getSpawns().size() - event.getArena().getTempspawn().size() <= 4) {
 			

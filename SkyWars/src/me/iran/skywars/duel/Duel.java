@@ -3,6 +3,7 @@ package me.iran.skywars.duel;
 import java.util.ArrayList;
 
 import me.iran.skywars.arena.Arena;
+import me.iran.skywars.kits.Kit;
 
 public class Duel {
 
@@ -15,6 +16,8 @@ public class Duel {
 	private String winner;
 	
 	private int time;
+	
+	private Kit kit;
 	
 	public Duel(Arena arena) {
 		
@@ -63,6 +66,14 @@ public class Duel {
 
 	public void setTime(int time) {
 		this.time = time;
+	}
+
+	public Kit getKit() {
+		return kit;
+	}
+
+	public void setKit(Kit kit) {
+		this.kit = kit;
 	}
 
 	

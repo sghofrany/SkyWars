@@ -16,6 +16,7 @@ public class Arena {
 	
 	private String name;
 	private String id;
+	private String world;
 	
 	private boolean team;
 	
@@ -138,6 +139,14 @@ public class Arena {
 
 	public void setTime(int time) {
 		this.time = time;
+	}
+
+	public String getWorld() {
+		return world;
+	}
+
+	public void setWorld(String world) {
+		this.world = world;
 	}
 
 }

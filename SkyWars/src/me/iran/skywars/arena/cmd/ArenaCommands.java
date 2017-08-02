@@ -96,6 +96,7 @@ public class ArenaCommands implements CommandExecutor {
 							
 							edit.put(player.getName(), arena);
 							player.sendMessage(ChatColor.GREEN + "You have started editing arena " + ChatColor.DARK_GREEN + arena.getName() + " ID " + ChatColor.DARK_GREEN + arena.getId());
+							
 						} else {
 							edit.put(player.getName(), arena);
 							player.sendMessage(ChatColor.GREEN + "You have started editing arena " + ChatColor.DARK_GREEN + arena.getName() + " ID " + ChatColor.DARK_GREEN + arena.getId());

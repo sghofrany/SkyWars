@@ -46,6 +46,8 @@ public class CancelItemDrop implements Listener {
 			event.setCancelled(true);
 		} else if(event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(ChatColor.RED.toString() + ChatColor.BOLD + "Ranked Queue")) {
 			event.setCancelled(true);
+		} else if(event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(ChatColor.RED.toString() + ChatColor.BOLD + "Leave Match")) {
+			event.setCancelled(true);
 		}
 		 
 	}

@@ -10,6 +10,8 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import me.iran.skywars.kits.Kit;
+import me.iran.skywars.kits.KitManager;
 import me.iran.skywars.utils.Queue;
 
 public class PlayerInventories {
@@ -32,6 +34,32 @@ public class PlayerInventories {
 		inv.setItem(0, grass);
 		
 		player.openInventory(inv);
+	}
+	
+	public void kits(Player player) {
+		Inventory inv = Bukkit.createInventory(null, 18, ChatColor.GOLD.toString() + ChatColor.BOLD + "Kits");
+		
+		if(KitManager.getManager().getKits().size() > 0) {
+			
+			for(int i = 0; i < KitManager.getManager().getKits().size(); i++) {
+				
+				Kit kit = KitManager.getManager().getKits().get(i);
+				
+				ItemStack item = kit.getDisplay();
+				
+				ItemMeta kitMeta = item.getItemMeta();
+				
+				kitMeta.setDisplayName(ChatColor.DARK_PURPLE.toString() + ChatColor.BOLD + kit.getName().toUpperCase());
+				
+				item.setItemMeta(kitMeta);
+				
+				inv.setItem(i, item);
+				
+			}
+		}
+		
+		player.openInventory(inv);
+		
 	}
 	
 	

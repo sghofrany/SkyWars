@@ -49,5 +49,25 @@ public class HotbarItems {
 		
 		player.updateInventory();
 	}
+
+	public void joinLobby(Player player) {
+		
+		ItemStack book = new ItemStack(Material.BOOK, 1);
+		ItemStack red = new ItemStack(Material.REDSTONE, 1);
+		
+		ItemMeta bMeta = book.getItemMeta();
+		ItemMeta rMeta = red.getItemMeta();
+		
+		bMeta.setDisplayName(ChatColor.GOLD.toString() + ChatColor.BOLD + "Kits");
+		rMeta.setDisplayName(ChatColor.RED.toString() + ChatColor.BOLD + "Leave Match");
+		
+		book.setItemMeta(bMeta);
+		red.setItemMeta(rMeta);
+		
+		player.getInventory().clear();
+		
+		player.getInventory().setItem(0, book);
+		player.getInventory().setItem(8, red);
+	}
 	
 }

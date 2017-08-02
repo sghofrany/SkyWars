@@ -26,7 +26,7 @@ public class InventoryClick implements Listener {
 		
 		Player player = (Player) event.getWhoClicked();
 		
-		if(!DuelManager.getManager().isPlayerInDuel(player)) {
+		if(!DuelManager.getManager().isPlayerInDuel(player) && !player.hasPermission("skywars.staff")) {
 			event.setCancelled(true);
 		}
 		

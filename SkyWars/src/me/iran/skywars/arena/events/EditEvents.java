@@ -33,7 +33,7 @@ public class EditEvents implements Listener {
 			return;
 		}
 		
-		if(event.getAction() == Action.RIGHT_CLICK_BLOCK) {
+		if(event.getAction() == Action.RIGHT_CLICK_AIR) {
 			
 			if(ArenaCommands.getEdit().containsKey(player.getName())) {
 				
@@ -41,9 +41,9 @@ public class EditEvents implements Listener {
 				
 				if(player.getItemInHand().getType() == Material.SPONGE) {
 					
-					if(!arena.getSpawns().contains(event.getClickedBlock().getLocation())) {
+					if(!arena.getSpawns().contains(player.getLocation())) {
 						
-						arena.getSpawns().add(event.getClickedBlock().getLocation());
+						arena.getSpawns().add(player.getLocation());
 						
 						player.sendMessage(ChatColor.GOLD + "Spawn location added " + arena.getSpawns().size());
 						

@@ -6,3 +6,5 @@ commands:
     description: Create an arena
   duel:
     description: test
+  kit:
+    description: create a kit

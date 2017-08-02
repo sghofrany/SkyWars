@@ -20,6 +20,8 @@ public class DuelDeathEvent implements Listener {
 	@EventHandler
 	public void onDeath(PlayerDeathEvent event) {
 	
+		event.setDeathMessage(null);
+		
 		Player player = event.getEntity();
 		Player killer = event.getEntity().getKiller();
 		
@@ -38,6 +40,8 @@ public class DuelDeathEvent implements Listener {
 			}
 			
 		}
+		
+		player.spigot().respawn();
 		
 		
 	}
