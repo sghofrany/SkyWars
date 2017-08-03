@@ -9,6 +9,7 @@ import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
+import me.iran.skywars.arena.LootManager;
 import me.iran.skywars.kits.Kit;
 import me.iran.skywars.kits.KitManager;
 import me.iran.skywars.utils.Queue;
@@ -41,16 +42,29 @@ public class PlayerInventories {
 				
 				Kit kit = KitManager.getManager().getKits().get(i);
 				
-				ItemStack item = kit.getDisplay();
-				
-				ItemMeta kitMeta = item.getItemMeta();
-				
-				kitMeta.setDisplayName(ChatColor.DARK_PURPLE.toString() + ChatColor.BOLD + kit.getName().toUpperCase());
-				
-				item.setItemMeta(kitMeta);
-				
-				inv.setItem(i, item);
-				
+				if(player.hasPermission(kit.getPermission())) {
+					ItemStack item = kit.getDisplay();
+					
+					ItemMeta kitMeta = item.getItemMeta();
+					
+					kitMeta.setDisplayName(ChatColor.DARK_PURPLE.toString() + ChatColor.BOLD + kit.getName().toUpperCase());
+					
+					item.setItemMeta(kitMeta);
+					
+					inv.setItem(i, item);
+				} else {
+					
+					ItemStack item = new ItemStack(Material.STAINED_GLASS, 1, (short) 14);
+					
+					ItemMeta kitMeta = item.getItemMeta();
+					
+					kitMeta.setDisplayName(ChatColor.DARK_RED.toString() + ChatColor.BOLD + kit.getName().toUpperCase());
+					
+					item.setItemMeta(kitMeta);
+					
+					inv.setItem(i, item);
+					
+				}
 			}
 		}
 		
@@ -58,5 +72,37 @@ public class PlayerInventories {
 		
 	}
 	
+	public void viewLoot(Player player) {
+		
+		Inventory inv = Bukkit.createInventory(null, 54, ChatColor.GREEN.toString() + ChatColor.BOLD + "Set Loot");
+		
+		ItemStack item = new ItemStack(Material.STAINED_GLASS_PANE, 1, (short) 15);
+	
+		ItemMeta meta = item.getItemMeta();
+		
+		meta.setDisplayName(ChatColor.GREEN + "[Tier 1 Above]" + ChatColor.RED + " [Tier 2 Down]");
+		
+		item.setItemMeta(meta);
+		
+		for(int i = 27; i < 36; i++) {
+			inv.setItem(i, item);
+		}
+		
+		for(int i = 0; i < LootManager.getLoot().getTier1().length; i++) {
+			ItemStack it = LootManager.getLoot().getTier1()[i];
+			
+			inv.setItem(i, it);
+		}
+		
+		for(int i = 0; i < LootManager.getLoot().getTier2().length; i++) {
+			
+			ItemStack it = LootManager.getLoot().getTier2()[i];
+			
+			inv.setItem(i + 36, it);
+		}
+		
+		player.openInventory(inv);
+		
+	}
 	
 }

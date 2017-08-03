@@ -24,6 +24,8 @@ public class PlayerLeaveArena implements Listener {
 			}
 		}
 		
+		event.getPlayer().sendMessage(ChatColor.RED.toString() + event.getPlayer().getName() + ChatColor.YELLOW + " has left the match (" + event.getArena().getPlayers().size() + "/12)");
+		
 	}
 	
 }

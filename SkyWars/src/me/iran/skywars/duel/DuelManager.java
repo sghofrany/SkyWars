@@ -84,7 +84,7 @@ public class DuelManager {
 						
 						if(duel.getPlayers().contains(p.getName())) {
 							
-							p.sendMessage(ChatColor.GREEN + "Teleported Spawn...");
+							SkyWars.getInstance().teleportSpawn(p);
 							
 							items.defaultItems(p);
 							

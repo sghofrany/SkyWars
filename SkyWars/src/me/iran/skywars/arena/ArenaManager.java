@@ -64,10 +64,14 @@ public class ArenaManager {
 						double x = config.getDouble("arena." + s + ".spawn." + l + ".x");
 						double y = config.getDouble("arena." + s + ".spawn." + l + ".y");
 						double z = config.getDouble("arena." + s + ".spawn." + l + ".z");
-						float pitch = config.getFloat("arena." + s + ".spawn." + l + ".pitch");
-						float yaw = config.getFloat("arena." + s + ".spawn." + l + ".yaw");
 						
-						Location loc = new Location(Bukkit.getWorld(world), x, y, z, yaw, pitch);
+						float pitch = (float) config.getDouble("arena." + s + ".spawn." + l + ".pitch");
+						float yaw = (float) config.getDouble("arena." + s + ".spawn." + l + ".yaw");
+						
+						Location loc = new Location(Bukkit.getWorld(world), x, y, z);
+						
+						loc.setPitch(pitch);
+						loc.setYaw(yaw);
 						
 						arena.getSpawns().add(loc);
 						arena.getTempspawn().add(loc);
@@ -83,11 +87,14 @@ public class ArenaManager {
 					double x = config.getDouble("arena." + s + ".lobby.x");
 					double y = config.getDouble("arena." + s + ".lobby.y");
 					double z = config.getDouble("arena." + s + ".lobby.z");
-					float pitch = config.getFloat("arena." + s + ".lobby.pitch");
-					float yaw = config.getFloat("arena." + s + ".lobby.yaw");
+					float pitch = (float) config.getDouble("arena." + s + ".lobby.pitch");
+					float yaw = (float) config.getDouble("arena." + s + ".lobby.yaw");
 
-					Location loc = new Location(Bukkit.getWorld(arena.getWorld()), x, y, z, yaw, pitch);
+					Location loc = new Location(Bukkit.getWorld(arena.getWorld()), x, y, z);
 
+					loc.setPitch(pitch);
+					loc.setYaw(yaw);
+					
 					arena.setLobby(loc);
 
 				}
@@ -142,6 +149,7 @@ public class ArenaManager {
 							config.set("arena." + arena.getId() + ".spawn." + i + ".z", arena.getSpawns().get(i).getZ());
 							config.set("arena." + arena.getId() + ".spawn." + i + ".pitch", arena.getSpawns().get(i).getPitch());
 							config.set("arena." + arena.getId() + ".spawn." + i + ".yaw", arena.getSpawns().get(i).getYaw());
+							
 							try {
 								config.save(file);
 							} catch (IOException e) {
@@ -169,6 +177,12 @@ public class ArenaManager {
 						config.set("arena." + arena.getId() + ".lobby.z", arena.getLobby().getZ());
 						config.set("arena." + arena.getId() + ".lobby.pitch", arena.getLobby().getPitch());
 						config.set("arena." + arena.getId() + ".lobby.yaw", arena.getLobby().getYaw());
+						
+						try {
+							config.save(file);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
 					}
 					
 					config.set("arena." + arena.getId() + ".name", arena.getName());
@@ -197,12 +211,12 @@ public class ArenaManager {
 				config.set("arena." + arena.getId() + ".refill", arena.getRefillTimer());
 				config.set("arena." + arena.getId() + ".team", arena.isTeam());
 				
-				config.set("arena." + arena.getId() + ".spawn", null);
-				config.set("arena." + arena.getId() + ".chest", null);
-				
 				if(arena.getSpawns().size() > 0) {
 					
+					config.set("arena." + arena.getId() + ".spawn", null);
+					
 					for(int i = 0; i < arena.getSpawns().size(); i++) {
+						
 						config.createSection("arena." + arena.getId() + ".spawn." + i + ".x");
 						config.createSection("arena." + arena.getId() + ".spawn." + i + ".y");
 						config.createSection("arena." + arena.getId() + ".spawn." + i + ".z");
@@ -214,14 +228,23 @@ public class ArenaManager {
 						config.set("arena." + arena.getId() + ".spawn." + i + ".z", arena.getSpawns().get(i).getZ());
 						config.set("arena." + arena.getId() + ".spawn." + i + ".pitch", arena.getSpawns().get(i).getPitch());
 						config.set("arena." + arena.getId() + ".spawn." + i + ".yaw", arena.getSpawns().get(i).getYaw());
+						
 					}
 					
 					config.createSection("arena." + arena.getId() + ".world");
 					config.set("arena." + arena.getId() + ".world", arena.getSpawns().get(0).getWorld().getName());
 					
+					try {
+						config.save(file);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					
 				}
 				
 				if(arena.getLobby() != null) {
+					
+					config.set("arena." + arena.getId() + ".lobby", null);
 					
 					config.createSection("arena." + arena.getId() + ".lobby.x");
 					config.createSection("arena." + arena.getId() + ".lobby.y");
@@ -234,6 +257,12 @@ public class ArenaManager {
 					config.set("arena." + arena.getId() + ".lobby.z", arena.getLobby().getZ());
 					config.set("arena." + arena.getId() + ".lobby.pitch", arena.getLobby().getPitch());
 					config.set("arena." + arena.getId() + ".lobby.yaw", arena.getLobby().getYaw());
+					
+					try {
+						config.save(file);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
 				}
 				
 			}
@@ -351,14 +380,11 @@ public class ArenaManager {
 			
 		if (arena.getPlayers().contains(player.getName())) {
 
-			Bukkit.getServer().getPluginManager().callEvent(new PlayerLeaveArenaEvent(player, arena));
-			
 			arena.getPlayers().remove(player.getName());
 			
 			if(arena.getPlayers().size() <= 0 && arena.getTime() > 0) {
 				arena.setTime(-1);
 				
-				// Teleport player to spawn
 				arena.getSpectators().clear();
 				arena.getChests().clear();
 				
@@ -382,13 +408,17 @@ public class ArenaManager {
 					available.add(arena);
 				}
 				
+				SkyWars.getInstance().teleportSpawn(player);
+				
 			}
 			
-		}
+			Bukkit.getServer().getPluginManager().callEvent(new PlayerLeaveArenaEvent(player, arena));
 
-		//teleport spawn
+			SkyWars.getInstance().teleportSpawn(player);
+			
+			items.defaultItems(player);
+		}
 		
-		items.defaultItems(player);
 	}
 	
 	public void removePlayerFromArena(Player player) {
@@ -402,7 +432,6 @@ public class ArenaManager {
 			
 		if (arena.getPlayers().contains(player.getName())) {
 
-			// Teleport player to spawn
 			items.defaultItems(player);
 
 			arena.getSpectators().clear();

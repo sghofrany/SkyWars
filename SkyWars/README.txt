@@ -1,3 +1,4 @@
 Permissions:
 
--skywars.staff
+- skywars.staff
+- skywars.<kitname>

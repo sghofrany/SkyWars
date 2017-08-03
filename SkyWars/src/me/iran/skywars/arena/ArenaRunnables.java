@@ -20,9 +20,23 @@ public class ArenaRunnables extends BukkitRunnable {
 					
 					arena.setTime(arena.getTime() - 1);
 					
+					for(Player p : Bukkit.getServer().getOnlinePlayers()) {
+						
+						if(arena.getPlayers().contains(p.getName())) {
+							
+							if(arena.getTime() == 15) {
+								p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Match will start in " + ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "15 seconds" + ChatColor.GREEN.toString() + ChatColor.BOLD  + "...");
+							} else if(arena.getTime() == 10) {
+								p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Match will start in " + ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + "10 seconds" + ChatColor.GREEN.toString() + ChatColor.BOLD  + "...");
+							} else if(arena.getTime() <= 5 && arena.getTime() > 0) {
+								p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "Match will start in " + ChatColor.LIGHT_PURPLE.toString() + ChatColor.BOLD + arena.getTime() + " seconds" + ChatColor.GREEN.toString() + ChatColor.BOLD  + "...");
+							} 
+						}
+					}
+					
 					if(arena.getTime() <= 0) {
 						
-						if(arena.getPlayers().size() >= arena.getMin()) {
+						if(arena.getPlayers().size() >= arena.getMin() && arena.getPlayers().size() > 1) {
 							DuelManager.getManager().unrankedSolo(arena, arena.getPlayers());
 							
 							arena.setTime(-1);

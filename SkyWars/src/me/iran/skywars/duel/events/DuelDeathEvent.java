@@ -35,14 +35,17 @@ public class DuelDeathEvent implements Listener {
 
 				if(duel.getAlive().size() == 1) {
 					DuelManager.getManager().endUnrankedSolo(Bukkit.getPlayer(duel.getAlive().get(0)));
-				}
+				} 
+				
+				/*
+				 * ^ else put in spectator mode
+				 */
 			
 			}
 			
 		}
 		
 		player.spigot().respawn();
-		
 		
 	}
 	

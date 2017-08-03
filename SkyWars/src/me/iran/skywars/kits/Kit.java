@@ -16,7 +16,7 @@ public class Kit {
 	public Kit(String name) {
 		this.setName(name);
 		
-		this.setPermission("skywars." + name);
+		this.setPermission("skywars." + name.toLowerCase());
 	}
 
 	public String getName() {

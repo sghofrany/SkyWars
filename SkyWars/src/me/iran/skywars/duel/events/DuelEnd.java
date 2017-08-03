@@ -38,7 +38,6 @@ public class DuelEnd implements Listener {
 				p.sendMessage("");
 				
 				p.sendMessage(ChatColor.RED + "Fighters: " + ChatColor.YELLOW + msg);
-				
 			}
 		}
 		

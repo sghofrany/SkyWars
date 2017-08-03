@@ -8,3 +8,7 @@ commands:
     description: test
   kit:
     description: create a kit
+  setspawn:
+    description: set spawn
+  loot:
+    description: set loot
