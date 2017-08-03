@@ -7,8 +7,6 @@ import me.iran.skywars.kits.Kit;
 
 public class Duel {
 
-	private ArrayList<String> players;
-	
 	private ArrayList<String> alive;
 	
 	private Arena arena;
@@ -19,19 +17,10 @@ public class Duel {
 	
 	public Duel(Arena arena) {
 		
-		setPlayers(new ArrayList<String>());
 		setAlive(new ArrayList<String>());
 		setTime(0);
 		
 		this.setArena(arena);
-	}
-
-	public ArrayList<String> getPlayers() {
-		return players;
-	}
-
-	public void setPlayers(ArrayList<String> players) {
-		this.players = players;
 	}
 
 	public Arena getArena() {

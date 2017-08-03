@@ -3,7 +3,6 @@ package me.iran.skywars.duel;
 import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
-import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 
 import me.iran.skywars.SkyWars;
@@ -35,15 +34,9 @@ public class DuelManager {
 		Duel duel = new Duel(arena);
 		
 		for(String s : players) {
-			duel.getPlayers().add(s);
-		}
-		
-		for(String s : players) {
 			
 			duel.getAlive().add(s);
 		}
-		
-		System.out.println(duel.getArena().getTempspawn().size());
 		
 		if(duel.getAlive().size() <= duel.getArena().getTempspawn().size()) {
 			
@@ -56,11 +49,14 @@ public class DuelManager {
 			}
 		}
 		
+		ArenaManager.getManager().getAvailable().remove(arena);
+		
 		duels.add(duel);
 		
 		Bukkit.getServer().getPluginManager().callEvent(new DuelStartEvent(players, duel, duel.getArena()));
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void endUnrankedSolo(Player player) {
 		
 		Duel duel = getDuelByPlayer(player);
@@ -72,17 +68,16 @@ public class DuelManager {
 		if(duel.getAlive().size() == 1) {
 			
 			duel.setWinner(duel.getAlive().get(0));
-
-			Bukkit.getServer().getPluginManager().callEvent(new DuelEndEvent(duel.getPlayers(), duel, duel.getArena()));
+			
+			Bukkit.getServer().getPluginManager().callEvent(new DuelEndEvent(duel.getAlive(), duel, duel.getArena()));
 			
 			Bukkit.getScheduler().scheduleSyncDelayedTask(SkyWars.getInstance(), new Runnable() {
 				
-				@SuppressWarnings("deprecation")
 				public void run() {
 
 					for(Player p : Bukkit.getServer().getOnlinePlayers()) {
 						
-						if(duel.getPlayers().contains(p.getName())) {
+						if(duel.getAlive().contains(p.getName()) || duel.getArena().getSpectators().contains(p.getName())) {
 							
 							SkyWars.getInstance().teleportSpawn(p);
 							
@@ -113,10 +108,22 @@ public class DuelManager {
 		
 	}
 
+	public boolean isArenaInUse(Arena arena) {
+		
+		for(Duel duel : duels) {
+			if(duel.getArena().getId().equalsIgnoreCase(arena.getId())) {
+				return true;
+			}
+		}
+		
+		return false;
+		
+	}
+	
 	public Duel getDuelByPlayer(Player player) {
 		
 		for(Duel duel : duels) {
-			if(duel.getPlayers().contains(player.getName())) {
+			if(duel.getAlive().contains(player.getName())) {
 				return duel;
 			}
 		}

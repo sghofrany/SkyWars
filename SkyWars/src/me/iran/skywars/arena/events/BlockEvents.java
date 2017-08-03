@@ -25,7 +25,15 @@ public class BlockEvents implements Listener {
 		
 		Duel duel = DuelManager.getManager().getDuelByPlayer(player);
 		
+		if(duel == null) {
+			return;
+		}
+		
 		Arena arena = DuelManager.getManager().getDuelByPlayer(player).getArena();
+		
+		if(arena == null) {
+			return;
+		}
 		
 		if(duel.getAlive().contains(player.getName())) {
 			
@@ -48,7 +56,15 @@ public class BlockEvents implements Listener {
 		
 		Duel duel = DuelManager.getManager().getDuelByPlayer(player);
 		
+		if(duel == null) {
+			return;
+		}
+		
 		Arena arena = DuelManager.getManager().getDuelByPlayer(player).getArena();
+		
+		if(arena == null) {
+			return;
+		}
 		
 		if(duel.getAlive().contains(player.getName())) {
 			

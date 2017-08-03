@@ -8,13 +8,15 @@ public class Kit {
 	private String name;
 	private String permission;
 	
-	private ItemStack display = new ItemStack(Material.DIAMOND_SWORD);
+	private ItemStack display;
 	
 	private ItemStack[] armor;
 	private ItemStack[] inv;
 
 	public Kit(String name) {
 		this.setName(name);
+		
+		setDisplay(new ItemStack(Material.DIAMOND_SWORD));
 		
 		this.setPermission("skywars." + name.toLowerCase());
 	}

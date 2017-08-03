@@ -7,6 +7,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerRespawnEvent;
 
 import me.iran.skywars.SkyWars;
+import me.iran.skywars.arena.ArenaManager;
 
 public class RespawnEvent implements Listener {
 
@@ -15,13 +16,15 @@ public class RespawnEvent implements Listener {
 		
 		Player player = event.getPlayer();
 		
-		Bukkit.getScheduler().scheduleSyncDelayedTask(SkyWars.getInstance(), new Runnable() {
-			
-			public void run() {
-				SkyWars.getInstance().teleportSpawn(player);
-			}
-			
-		}, 5);
+/*		if(!ArenaManager.getManager().isPlayerSpectating(player)) {
+			Bukkit.getScheduler().scheduleSyncDelayedTask(SkyWars.getInstance(), new Runnable() {
+				
+				public void run() {
+					SkyWars.getInstance().teleportSpawn(player);
+				}
+				
+			}, 5);
+		}*/
 		
 	}
 	

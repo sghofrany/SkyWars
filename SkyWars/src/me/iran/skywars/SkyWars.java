@@ -2,45 +2,51 @@ package me.iran.skywars;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import me.iran.skywars.arena.ArenaManager;
 import me.iran.skywars.arena.ArenaRunnables;
 import me.iran.skywars.arena.LootManager;
 import me.iran.skywars.arena.cmd.ArenaCommands;
+import me.iran.skywars.arena.events.ArenaCenterEvents;
 import me.iran.skywars.arena.events.BlockEvents;
 import me.iran.skywars.arena.events.EditEvents;
 import me.iran.skywars.arena.events.PlayerJoinArena;
 import me.iran.skywars.arena.events.PlayerLeaveArena;
+import me.iran.skywars.duel.Spectate;
 import me.iran.skywars.duel.events.ChestEvent;
+import me.iran.skywars.duel.events.DisconnectInDuel;
 import me.iran.skywars.duel.events.DuelDeathEvent;
 import me.iran.skywars.duel.events.DuelEnd;
 import me.iran.skywars.duel.events.DuelStart;
 import me.iran.skywars.duel.events.PickItemUp;
 import me.iran.skywars.duel.events.RespawnEvent;
-import me.iran.skywars.items.InventoryRunnables;
+import me.iran.skywars.items.HotbarItems;
 import me.iran.skywars.items.PlayerInventories;
-import me.iran.skywars.items.events.CancelBlockPlace;
 import me.iran.skywars.items.events.CancelItemDrop;
 import me.iran.skywars.items.events.InteractWithItemsInHand;
 import me.iran.skywars.items.events.InventoryClick;
 import me.iran.skywars.items.events.OnJoinItems;
 import me.iran.skywars.kits.KitManager;
 import me.iran.skywars.kits.cmd.KitCommands;
-import me.iran.skywars.utils.Queue;
 
-public class SkyWars extends JavaPlugin {
+public class SkyWars extends JavaPlugin implements Listener {
 
 	private static SkyWars instance;
 	
-	private InventoryRunnables invRun = new InventoryRunnables(this);
-	private Queue queue = new Queue();
+	//private InventoryRunnables invRun = new InventoryRunnables(this);
+	//private Queue queue = new Queue();
 	private ArenaRunnables arenaRun = new ArenaRunnables();
 	private PlayerInventories inv = new PlayerInventories();
+	private HotbarItems items = new HotbarItems();
 	
 	public static SkyWars getInstance() {
 		return instance;
@@ -60,11 +66,12 @@ public class SkyWars extends JavaPlugin {
 		getCommand("arena").setExecutor(new ArenaCommands(this));
 		getCommand("duel").setExecutor(new ArenaCommands(this));
 		getCommand("kit").setExecutor(new KitCommands());
+		getCommand("spectate").setExecutor(new Spectate());
 		
+		Bukkit.getPluginManager().registerEvents(this, this);
 		Bukkit.getPluginManager().registerEvents(new EditEvents(this), this);
 		Bukkit.getPluginManager().registerEvents(new OnJoinItems(this), this);
 		Bukkit.getPluginManager().registerEvents(new CancelItemDrop(this), this);
-		Bukkit.getPluginManager().registerEvents(new CancelBlockPlace(this), this);
 		Bukkit.getPluginManager().registerEvents(new InventoryClick(), this);
 		Bukkit.getPluginManager().registerEvents(new InteractWithItemsInHand(), this);
 		Bukkit.getPluginManager().registerEvents(new DuelDeathEvent(this), this);
@@ -76,6 +83,9 @@ public class SkyWars extends JavaPlugin {
 		Bukkit.getPluginManager().registerEvents(new RespawnEvent(), this);
 		Bukkit.getPluginManager().registerEvents(new BlockEvents(), this);
 		Bukkit.getPluginManager().registerEvents(new PickItemUp(), this);
+		Bukkit.getPluginManager().registerEvents(new DisconnectInDuel(), this);
+		Bukkit.getPluginManager().registerEvents(new Spectate(), this);
+		//Bukkit.getPluginManager().registerEvents(new ArenaCenterEvents(), this);
 		
 		//invRun.runTaskTimer(this, 20, 20);
 		//queue.runTaskTimer(this, 20, 20);
@@ -185,6 +195,27 @@ public class SkyWars extends JavaPlugin {
 		player.teleport(loc);
 		
 		player.sendMessage(ChatColor.GOLD + "Teleported to Spawn!");
+		
+		items.defaultItems(player);
+		
+	}
+	
+	@SuppressWarnings("deprecation")
+	@EventHandler
+	public void onJoin(PlayerJoinEvent event) {
+		event.setJoinMessage(null);
+		teleportSpawn(event.getPlayer());
+		
+		event.getPlayer().setGameMode(GameMode.SURVIVAL);
+		
+		for(Player p : Bukkit.getOnlinePlayers()) {
+			if(!p.hasPermission("skywars.staff")) {
+				p.showPlayer(event.getPlayer());
+				event.getPlayer().showPlayer(p);
+			}
+		}
+		
+		Spectate.leaveSpectator(event.getPlayer());
 		
 	}
 	

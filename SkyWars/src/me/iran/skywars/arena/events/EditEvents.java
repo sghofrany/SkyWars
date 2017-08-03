@@ -61,6 +61,12 @@ public class EditEvents implements Listener {
 					player.sendMessage(ChatColor.GOLD + "Set lobby location for arena " + arena.getName());
 				}
 				
+				if(player.getItemInHand().getType() == Material.DIAMOND_BLOCK) {
+					
+					arena.setCenter(player.getLocation());
+					player.sendMessage(ChatColor.GOLD + "Set center location for arena " + arena.getName());
+				}
+				
 			}
 		}
 		

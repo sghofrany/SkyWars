@@ -86,6 +86,7 @@ public class KitCommands implements CommandExecutor {
 				kit.setInv(player.getInventory().getContents());
 				kit.setArmor(player.getInventory().getArmorContents());
 				
+				player.sendMessage(ChatColor.YELLOW.toString() + "Edited kit " + ChatColor.DARK_PURPLE + kit.getName());
 			}
 			
 			
@@ -105,6 +106,9 @@ public class KitCommands implements CommandExecutor {
 				
 				if(player.getItemInHand().getType() != null) {
 					kit.setDisplay(player.getItemInHand());
+					
+					player.sendMessage(ChatColor.YELLOW.toString() + "Set display item for kit " + ChatColor.DARK_PURPLE + kit.getName());
+					
 				} else {
 					player.sendMessage(ChatColor.RED + "You must have something in your hand");
 				}

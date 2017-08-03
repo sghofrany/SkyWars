@@ -12,3 +12,5 @@ commands:
     description: set spawn
   loot:
     description: set loot
+  spectate:
+    description: spectator mode

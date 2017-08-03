@@ -52,6 +52,7 @@ public class ChestEvent implements Listener {
 				int fill = new Random().nextInt(6);
 				
 				for(int i = 0; i < fill; i++) {
+					
 					int pick = new Random().nextInt(LootManager.getLoot().getTier1().length);
 					
 					chest.getBlockInventory().addItem(LootManager.getLoot().getTier1()[pick]);

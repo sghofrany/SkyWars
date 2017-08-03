@@ -9,6 +9,7 @@ import org.bukkit.event.player.PlayerInteractEvent;
 
 import me.iran.skywars.arena.ArenaManager;
 import me.iran.skywars.duel.DuelManager;
+import me.iran.skywars.duel.Spectate;
 import me.iran.skywars.items.PlayerInventories;
 
 public class InteractWithItemsInHand implements Listener {
@@ -60,6 +61,8 @@ public class InteractWithItemsInHand implements Listener {
 					player.sendMessage(ChatColor.RED + "Can't leave while in a duel!");
 				}
 			
+			}  else if(player.getItemInHand().getItemMeta().getDisplayName().equals(ChatColor.DARK_RED + "Leave Spectator Mode")) {
+				Spectate.leaveSpectator(player);
 			}
 			
 		}

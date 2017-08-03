@@ -48,6 +48,10 @@ public class CancelItemDrop implements Listener {
 			event.setCancelled(true);
 		} else if(event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(ChatColor.RED.toString() + ChatColor.BOLD + "Leave Match")) {
 			event.setCancelled(true);
+		} else if(event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(ChatColor.YELLOW + "View Players")) {
+			event.setCancelled(true);
+		} else if(event.getItemDrop().getItemStack().getItemMeta().getDisplayName().equals(ChatColor.DARK_RED + "Leave Spectator Mode")) {
+			event.setCancelled(true);
 		}
 		 
 	}

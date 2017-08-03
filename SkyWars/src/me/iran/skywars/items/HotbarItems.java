@@ -88,4 +88,24 @@ public class HotbarItems {
 		player.getInventory().setItem(0, book);
 	}
 	
+	public void spectatorItems(Player player) {
+		ItemStack compass = new ItemStack(Material.COMPASS, 1);
+		ItemStack torch = new ItemStack(Material.REDSTONE_TORCH_ON, 1);
+		
+		ItemMeta cMeta = compass.getItemMeta();
+		ItemMeta tMeta = torch.getItemMeta();
+		
+		cMeta.setDisplayName(ChatColor.YELLOW + "View Players");
+		tMeta.setDisplayName(ChatColor.DARK_RED + "Leave Spectator Mode");
+		
+		compass.setItemMeta(cMeta);
+		torch.setItemMeta(tMeta);
+		
+		player.getInventory().clear();
+		player.getInventory().setArmorContents(null);
+		
+		player.getInventory().setItem(0, compass);
+		player.getInventory().setItem(8, torch);
+	}
+	
 }

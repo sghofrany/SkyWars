@@ -179,12 +179,9 @@ public class KitManager {
 		kit.setInv(player.getInventory().getContents());
 		kit.setArmor(player.getInventory().getArmorContents());
 		
-		if(player.getItemInHand().getType() != null) {
-			kit.setDisplay(player.getItemInHand());
-		}
-		
 		kits.add(kit);
 		
+		player.sendMessage(ChatColor.YELLOW + "Created Kit " + ChatColor.DARK_PURPLE + name);
 	}
 	
 	public void deleteKit(Player player, String name) {
@@ -202,6 +199,9 @@ public class KitManager {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+			
+			player.sendMessage(ChatColor.RED + "Created Kit " + ChatColor.DARK_RED + name);
+			
 		} else {
 			player.sendMessage(ChatColor.RED + "Couldn't find a kit with the name of " + name);
 		}

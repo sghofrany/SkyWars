@@ -34,6 +34,7 @@ public class PlayerInventories {
 	}
 	
 	public void kits(Player player) {
+		
 		Inventory inv = Bukkit.createInventory(null, 18, ChatColor.GOLD.toString() + ChatColor.BOLD + "Kits");
 		
 		if(KitManager.getManager().getKits().size() > 0) {
@@ -43,6 +44,7 @@ public class PlayerInventories {
 				Kit kit = KitManager.getManager().getKits().get(i);
 				
 				if(player.hasPermission(kit.getPermission())) {
+					
 					ItemStack item = kit.getDisplay();
 					
 					ItemMeta kitMeta = item.getItemMeta();

@@ -99,6 +99,18 @@ public class ArenaManager {
 
 				}
 
+				if (config.contains("arena." + s + ".center")) {
+
+					double x = config.getDouble("arena." + s + ".center.x");
+					double y = config.getDouble("arena." + s + ".center.y");
+					double z = config.getDouble("arena." + s + ".center.z");
+
+					Location loc = new Location(Bukkit.getWorld(arena.getWorld()), x, y, z);
+
+					arena.setCenter(loc);
+
+				}
+				
 				arena.setName(name);
 				arena.setId(id);
 				arena.setRefillTimer(refill);
@@ -177,6 +189,23 @@ public class ArenaManager {
 						config.set("arena." + arena.getId() + ".lobby.z", arena.getLobby().getZ());
 						config.set("arena." + arena.getId() + ".lobby.pitch", arena.getLobby().getPitch());
 						config.set("arena." + arena.getId() + ".lobby.yaw", arena.getLobby().getYaw());
+						
+						try {
+							config.save(file);
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
+					
+					if(arena.getCenter() != null) {
+						
+						config.createSection("arena." + arena.getId() + ".center.x");
+						config.createSection("arena." + arena.getId() + ".center.y");
+						config.createSection("arena." + arena.getId() + ".center.z");
+						
+						config.set("arena." + arena.getId() + ".center.x", arena.getCenter().getX());
+						config.set("arena." + arena.getId() + ".center.y", arena.getCenter().getY());
+						config.set("arena." + arena.getId() + ".center.z", arena.getCenter().getZ());
 						
 						try {
 							config.save(file);
@@ -265,6 +294,23 @@ public class ArenaManager {
 					}
 				}
 				
+				if(arena.getCenter() != null) {
+					
+					config.createSection("arena." + arena.getId() + ".center.x");
+					config.createSection("arena." + arena.getId() + ".center.y");
+					config.createSection("arena." + arena.getId() + ".center.z");
+					
+					config.set("arena." + arena.getId() + ".center.x", arena.getCenter().getX());
+					config.set("arena." + arena.getId() + ".center.y", arena.getCenter().getY());
+					config.set("arena." + arena.getId() + ".center.z", arena.getCenter().getZ());
+					
+					try {
+						config.save(file);
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+				}
+				
 			}
 			
 			try {
@@ -318,6 +364,28 @@ public class ArenaManager {
 		}
 		
 		return false;
+	}
+	
+	public boolean isPlayerSpectating(Player player) {
+		
+		for(Arena arena : arenas) {
+			if(arena.getSpectators().contains(player.getName())) {
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public Arena getSpectatingArena(Player player) {
+		
+		for(Arena arena : arenas) {
+			if(arena.getSpectators().contains(player.getName())) {
+				return arena;
+			}
+		}
+		
+		return null;
 	}
 	
 	public void teleportToRandomArena(Player player) {
@@ -428,7 +496,6 @@ public class ArenaManager {
 		if(arena == null) {
 			return;
 		}
-		
 			
 		if (arena.getPlayers().contains(player.getName())) {
 

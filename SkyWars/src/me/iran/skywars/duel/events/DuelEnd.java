@@ -6,12 +6,14 @@ import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.potion.PotionEffect;
 
 import me.iran.skywars.SkyWars;
 import me.iran.skywars.arena.Arena;
 import me.iran.skywars.arena.ArenaManager;
 import me.iran.skywars.customevents.DuelEndEvent;
 import me.iran.skywars.duel.Duel;
+import me.iran.skywars.duel.Spectate;
 import me.iran.skywars.items.HotbarItems;
 import net.md_5.bungee.api.ChatColor;
 
@@ -25,7 +27,7 @@ public class DuelEnd implements Listener {
 		
 		String msg = "";
 		
-		for(String s : duel.getPlayers()) {
+		for(String s : duel.getArena().getSpectators()) {
 			msg = msg + s + ", ";
 		}
 		
@@ -37,8 +39,36 @@ public class DuelEnd implements Listener {
 				p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "WINNER: " + ChatColor.YELLOW + duel.getWinner());
 				p.sendMessage("");
 				
-				p.sendMessage(ChatColor.RED + "Fighters: " + ChatColor.YELLOW + msg);
+				p.sendMessage(ChatColor.YELLOW + "Spectators: " + ChatColor.AQUA + msg);
+				
+				p.setHealth(20.0);
+				p.setFoodLevel(20);
+				
+				for(PotionEffect effect : p.getActivePotionEffects()) {
+					p.removePotionEffect(effect.getType());
+				}
+				
 			}
+			
+			if(duel.getArena().getSpectators().contains(p.getName())) {
+				
+				Spectate.leaveSpectator(p);
+				
+				p.sendMessage("");
+				p.sendMessage(ChatColor.GREEN.toString() + ChatColor.BOLD + "WINNER: " + ChatColor.YELLOW + duel.getWinner());
+				p.sendMessage("");
+				
+				p.sendMessage(ChatColor.YELLOW + "Spectators: " + ChatColor.AQUA + msg);
+				
+				p.setHealth(20.0);
+				p.setFoodLevel(20);
+				
+				for(PotionEffect effect : p.getActivePotionEffects()) {
+					p.removePotionEffect(effect.getType());
+				}
+				
+			}
+			
 		}
 		
 	}
