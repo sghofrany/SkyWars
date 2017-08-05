@@ -10,9 +10,9 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import me.iran.skywars.arena.LootManager;
+import me.iran.skywars.duel.Duel;
 import me.iran.skywars.kits.Kit;
 import me.iran.skywars.kits.KitManager;
-import me.iran.skywars.utils.Queue;
 
 public class PlayerInventories {
 
@@ -101,6 +101,26 @@ public class PlayerInventories {
 			ItemStack it = LootManager.getLoot().getTier2()[i];
 			
 			inv.setItem(i + 36, it);
+		}
+		
+		player.openInventory(inv);
+		
+	}
+	
+	public void playersLeftSolo(Player player, Duel duel) {
+		
+		Inventory inv = Bukkit.createInventory(null, 18, ChatColor.YELLOW.toString() + ChatColor.BOLD + "Players Left");
+		
+		for(int i = 0; i < duel.getAlive().size(); i++) {
+			
+			ItemStack head = new ItemStack(Material.SKULL_ITEM, 1, (byte) 3);
+			
+			ItemMeta hMeta = head.getItemMeta();
+			
+			hMeta.setDisplayName(ChatColor.GREEN + duel.getAlive().get(i));
+			head.setItemMeta(hMeta);
+			
+			inv.setItem(i, head);
 		}
 		
 		player.openInventory(inv);

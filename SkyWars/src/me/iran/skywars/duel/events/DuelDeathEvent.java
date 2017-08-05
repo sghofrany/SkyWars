@@ -28,6 +28,10 @@ public class DuelDeathEvent implements Listener {
 		
 		Player player = event.getEntity();
 		
+		if(!DuelManager.getManager().isPlayerInDuel(player)) {
+			event.getDrops().clear();
+		}
+		
 		if(DuelManager.getManager().isPlayerInDuel(player)) {
 			
 			Duel duel = DuelManager.getManager().getDuelByPlayer(player);
@@ -63,8 +67,6 @@ public class DuelDeathEvent implements Listener {
 					
 				}
 			}
-			
-
 			
 			if(duel.getAlive().contains(player.getName())) {
 				

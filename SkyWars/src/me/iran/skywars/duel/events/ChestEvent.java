@@ -9,11 +9,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 import me.iran.skywars.arena.LootManager;
 import me.iran.skywars.duel.Duel;
 import me.iran.skywars.duel.DuelManager;
-import net.md_5.bungee.api.ChatColor;
 
 public class ChestEvent implements Listener {
 
@@ -37,7 +38,7 @@ public class ChestEvent implements Listener {
 				Chest chest = (Chest) event.getClickedBlock().getState();
 				
 				if(!DuelManager.getManager().isPlayerInDuel(player)) {
-					player.sendMessage(ChatColor.RED + "Can't open chests unless you are in a game!");
+					event.setCancelled(true);
 					return;
 				}
 				
@@ -49,14 +50,20 @@ public class ChestEvent implements Listener {
 				
 				chest.getBlockInventory().clear();
 				
-				int fill = new Random().nextInt(6);
-				
+				int fill = new Random().nextInt(5) + 1;
+
 				for(int i = 0; i < fill; i++) {
 					
 					int pick = new Random().nextInt(LootManager.getLoot().getTier1().length);
 					
-					chest.getBlockInventory().addItem(LootManager.getLoot().getTier1()[pick]);
+					ItemStack item = LootManager.getLoot().getTier1()[pick];
 					
+					if(!doesContain(item, chest.getBlockInventory())) {
+						chest.getBlockInventory().addItem(item);
+					} else {
+						fill--;
+					}
+
 				}
 				
 				duel.getArena().getChests().add(event.getClickedBlock().getLocation());
@@ -68,7 +75,7 @@ public class ChestEvent implements Listener {
 				Chest chest = (Chest) event.getClickedBlock().getState();
 				
 				if(!DuelManager.getManager().isPlayerInDuel(player)) {
-					player.sendMessage(ChatColor.RED + "Can't open chests unless you are in a game!");
+					event.setCancelled(true);
 					return;
 				}
 				
@@ -85,7 +92,13 @@ public class ChestEvent implements Listener {
 				for(int i = 0; i < fill; i++) {
 					int pick = new Random().nextInt(LootManager.getLoot().getTier2().length);
 					
-					chest.getBlockInventory().addItem(LootManager.getLoot().getTier2()[pick]);
+					ItemStack item = LootManager.getLoot().getTier2()[pick];
+					
+					if(!doesContain(item, chest.getBlockInventory())) {
+						chest.getBlockInventory().addItem(item);
+					} else {
+						fill--;
+					}
 					
 				}
 				
@@ -95,6 +108,15 @@ public class ChestEvent implements Listener {
 			
 		}
 		
+	}
+	
+	private boolean doesContain(ItemStack item, Inventory inv) {
+		
+		if(inv.containsAtLeast(item, 1)) {
+			return true;
+		}
+		
+		return false;
 	}
 	
 }

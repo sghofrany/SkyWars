@@ -194,8 +194,6 @@ public class SkyWars extends JavaPlugin implements Listener {
 		
 		player.teleport(loc);
 		
-		player.sendMessage(ChatColor.GOLD + "Teleported to Spawn!");
-		
 		items.defaultItems(player);
 		
 	}
@@ -204,9 +202,12 @@ public class SkyWars extends JavaPlugin implements Listener {
 	@EventHandler
 	public void onJoin(PlayerJoinEvent event) {
 		event.setJoinMessage(null);
+		
+		Player player = event.getPlayer();
+		
 		teleportSpawn(event.getPlayer());
 		
-		event.getPlayer().setGameMode(GameMode.SURVIVAL);
+		player.setGameMode(GameMode.SURVIVAL);
 		
 		for(Player p : Bukkit.getOnlinePlayers()) {
 			if(!p.hasPermission("skywars.staff")) {
@@ -217,6 +218,13 @@ public class SkyWars extends JavaPlugin implements Listener {
 		
 		Spectate.leaveSpectator(event.getPlayer());
 		
+		player.sendMessage("");
+		player.sendMessage(ChatColor.AQUA + "Welcome to " + ChatColor.DARK_AQUA.toString() + ChatColor.BOLD + "Erid.rip" + ChatColor.AQUA + " SkyWars server!");
+		player.sendMessage("");
+		player.sendMessage(ChatColor.AQUA + "Player Count: " + ChatColor.DARK_AQUA + Bukkit.getOnlinePlayers().length);
+		player.sendMessage("");
+		player.sendMessage(ChatColor.RED.toString() + ChatColor.BOLD + "Just as a reminder, we are in very early stages and are fixing bugs that are reported!");
+		player.sendMessage("");
 	}
 	
 }

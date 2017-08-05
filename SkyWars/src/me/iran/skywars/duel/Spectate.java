@@ -287,6 +287,10 @@ public class Spectate implements CommandExecutor, Listener {
 				event.setCancelled(true);
 			}
 			
+			if(!DuelManager.getManager().isPlayerInDuel(player)) {
+				event.setCancelled(true);
+			}
+			
 		}
 	}
 	

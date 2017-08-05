@@ -16,7 +16,7 @@ public class RespawnEvent implements Listener {
 		
 		Player player = event.getPlayer();
 		
-/*		if(!ArenaManager.getManager().isPlayerSpectating(player)) {
+		if(!ArenaManager.getManager().isPlayerSpectating(player)) {
 			Bukkit.getScheduler().scheduleSyncDelayedTask(SkyWars.getInstance(), new Runnable() {
 				
 				public void run() {
@@ -24,7 +24,7 @@ public class RespawnEvent implements Listener {
 				}
 				
 			}, 5);
-		}*/
+		}
 		
 	}
 	
