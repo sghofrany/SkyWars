@@ -8,6 +8,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.inventory.ItemStack;
+
 import me.iran.skywars.arena.ArenaManager;
 import me.iran.skywars.duel.DuelManager;
 import me.iran.skywars.kits.Kit;
@@ -49,6 +51,18 @@ public class InventoryClick implements Listener {
 		if(event.getClickedInventory().getTitle().equals(ChatColor.GREEN.toString() + ChatColor.BOLD + "Set Loot")) {
 			if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.GREEN + "[Tier 1 Above]" + ChatColor.RED + " [Tier 2 Down]")) {
 				event.setCancelled(true);
+			}
+		}
+		
+		if(event.getClickedInventory().getTitle().equals(ChatColor.RED.toString() + ChatColor.BOLD + "Brew")) {
+			event.setCancelled(true);
+			
+			if(event.getCurrentItem().getItemMeta().getDisplayName().equals(ChatColor.AQUA.toString() + "Speed 2")) {
+				
+				
+				
+		
+				
 			}
 		}
 		

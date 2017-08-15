@@ -5,3 +5,16 @@ spawn:
   pitch: 4.9763517
   yaw: -231.77802
   world: world
+scoreboard-solo:
+  title: '&5&lErid &8(&7Skywars&8)'
+  gametime: '&d&lGame Time:'
+  alive-players: '&e&lPlayers:'
+  refill-timer: '&c&lRefill:'
+  spectators: '&b&lSpectators:'
+  website: '&3&lwww.erid.rip'
+scoreboard-solo-lobby:
+  title: '&5&lErid &8(&7Skywars&8)'
+  players: '&e&lPlayers:'
+  start: '&b&lStarts in:'
+  map: '&c&lMap:'
+  website: '&3&lwww.erid.rip'

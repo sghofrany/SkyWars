@@ -39,6 +39,14 @@ public class DisconnectInDuel implements Listener {
 			return;
 		}
 		
+		if(arena.getPlayers().contains(player.getName())) {
+			arena.getPlayers().remove(player.getName());
+		}
+		
+		if(arena.getSpectators().contains(player.getName())) {
+			arena.getSpectators().remove(player.getName());
+		}
+		
 		if(duel.getAlive().contains(player.getName())) {
 			duel.getAlive().remove(player.getName());
 			
@@ -46,14 +54,6 @@ public class DisconnectInDuel implements Listener {
 				DuelManager.getManager().endUnrankedSolo(Bukkit.getPlayer(duel.getAlive().get(0)));
 			}
 			
-		}
-		
-		if(arena.getPlayers().contains(player.getName())) {
-			arena.getPlayers().remove(player.getName());
-		}
-		
-		if(arena.getSpectators().contains(player.getName())) {
-			arena.getSpectators().remove(player.getName());
 		}
 		
 	}

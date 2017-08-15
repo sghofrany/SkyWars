@@ -7,9 +7,12 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 
 import me.iran.skywars.customevents.PlayerJoinArenaEvent;
+import me.iran.skywars.utils.Scoreboards;
 
 public class PlayerJoinArena implements Listener {
 
+	private Scoreboards sb = new Scoreboards();
+	
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onJoin(PlayerJoinArenaEvent event) {
@@ -21,6 +24,7 @@ public class PlayerJoinArena implements Listener {
 		for(Player p : Bukkit.getOnlinePlayers()) {
 			
 			if(event.getArena().getPlayers().contains(p.getName())) {
+				p.setScoreboard(sb.waitingSolo(p));
 				p.sendMessage(ChatColor.AQUA.toString() + player.getName() + ChatColor.GREEN + " has joined the match (" + event.getArena().getPlayers().size() + "/12)");
 			}
 		}

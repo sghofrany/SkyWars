@@ -52,6 +52,10 @@ public class ChestEvent implements Listener {
 				
 				int fill = new Random().nextInt(5) + 1;
 
+				if(fill <= 1) {
+					fill = 3;
+				}
+				
 				for(int i = 0; i < fill; i++) {
 					
 					int pick = new Random().nextInt(LootManager.getLoot().getTier1().length);
@@ -87,7 +91,11 @@ public class ChestEvent implements Listener {
 				
 				chest.getBlockInventory().clear();
 				
-				int fill = new Random().nextInt(6);
+				int fill = new Random().nextInt(5) + 1;
+				
+				if(fill <= 1) {
+					fill = 3;
+				}
 				
 				for(int i = 0; i < fill; i++) {
 					int pick = new Random().nextInt(LootManager.getLoot().getTier2().length);

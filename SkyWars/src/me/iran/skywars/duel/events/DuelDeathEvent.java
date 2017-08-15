@@ -74,7 +74,16 @@ public class DuelDeathEvent implements Listener {
 
 				if(duel.getAlive().size() == 1) {
 					duel.getArena().getSpectators().add(player.getName());
+					
+					Player p = Bukkit.getPlayer(duel.getAlive().get(0));
+					
+					p.getInventory().clear();
+					p.getInventory().setArmorContents(null);
+
+					SkyWars.getInstance().teleportSpawn(p);
+					
 					DuelManager.getManager().endUnrankedSolo(Bukkit.getPlayer(duel.getAlive().get(0)));
+					
 				} else {
 					Spectate.makeSpectator(player, duel.getAlive().get(0));
 				}

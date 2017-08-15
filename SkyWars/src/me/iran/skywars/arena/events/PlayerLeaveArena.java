@@ -8,9 +8,12 @@ import org.bukkit.event.Listener;
 
 import me.iran.skywars.arena.Arena;
 import me.iran.skywars.customevents.PlayerLeaveArenaEvent;
+import me.iran.skywars.utils.Scoreboards;
 
 public class PlayerLeaveArena implements Listener {
 
+	private Scoreboards sb = new Scoreboards();
+	
 	@SuppressWarnings("deprecation")
 	@EventHandler
 	public void onLeave(PlayerLeaveArenaEvent event) {
@@ -25,7 +28,7 @@ public class PlayerLeaveArena implements Listener {
 		}
 		
 		event.getPlayer().sendMessage(ChatColor.RED.toString() + event.getPlayer().getName() + ChatColor.YELLOW + " has left the match (" + event.getArena().getPlayers().size() + "/12)");
-		
+		sb.spawn(event.getPlayer());
 	}
 	
 }

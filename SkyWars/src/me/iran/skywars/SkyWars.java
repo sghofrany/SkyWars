@@ -22,6 +22,7 @@ import me.iran.skywars.arena.events.EditEvents;
 import me.iran.skywars.arena.events.PlayerJoinArena;
 import me.iran.skywars.arena.events.PlayerLeaveArena;
 import me.iran.skywars.duel.Spectate;
+import me.iran.skywars.duel.events.BrewEvent;
 import me.iran.skywars.duel.events.ChestEvent;
 import me.iran.skywars.duel.events.DisconnectInDuel;
 import me.iran.skywars.duel.events.DuelDeathEvent;
@@ -37,6 +38,7 @@ import me.iran.skywars.items.events.InventoryClick;
 import me.iran.skywars.items.events.OnJoinItems;
 import me.iran.skywars.kits.KitManager;
 import me.iran.skywars.kits.cmd.KitCommands;
+import me.iran.skywars.utils.Scoreboards;
 
 public class SkyWars extends JavaPlugin implements Listener {
 
@@ -47,6 +49,7 @@ public class SkyWars extends JavaPlugin implements Listener {
 	private ArenaRunnables arenaRun = new ArenaRunnables();
 	private PlayerInventories inv = new PlayerInventories();
 	private HotbarItems items = new HotbarItems();
+	private Scoreboards sb = new Scoreboards();
 	
 	public static SkyWars getInstance() {
 		return instance;
@@ -58,6 +61,9 @@ public class SkyWars extends JavaPlugin implements Listener {
 		Bukkit.getServer().getConsoleSender().sendMessage(ChatColor.AQUA + "Twitter @Irantwomiles");
 		
 		instance = this;
+		
+		getConfig().options().copyDefaults(true);
+		saveConfig();
 		
 		ArenaManager.getManager().loadArenas();
 		KitManager.getManager().loadKits();
@@ -85,12 +91,11 @@ public class SkyWars extends JavaPlugin implements Listener {
 		Bukkit.getPluginManager().registerEvents(new PickItemUp(), this);
 		Bukkit.getPluginManager().registerEvents(new DisconnectInDuel(), this);
 		Bukkit.getPluginManager().registerEvents(new Spectate(), this);
-		//Bukkit.getPluginManager().registerEvents(new ArenaCenterEvents(), this);
+		Bukkit.getPluginManager().registerEvents(new BrewEvent(), this);
+		Bukkit.getPluginManager().registerEvents(new ArenaCenterEvents(), this);
 		
-		//invRun.runTaskTimer(this, 20, 20);
-		//queue.runTaskTimer(this, 20, 20);
 		arenaRun.runTaskTimer(this, 20, 20);
-		
+		sb.runTaskTimer(this, 20, 20);
 	}
 	
 	public void onDisable() {

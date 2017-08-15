@@ -1,6 +1,8 @@
 package me.iran.skywars.items;
 
 
+import java.util.Arrays;
+
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
@@ -8,6 +10,8 @@ import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.potion.Potion;
+import org.bukkit.potion.PotionType;
 
 import me.iran.skywars.arena.LootManager;
 import me.iran.skywars.duel.Duel;
@@ -125,6 +129,45 @@ public class PlayerInventories {
 		
 		player.openInventory(inv);
 		
+	}
+	
+	public void brew(Player player) {
+		
+		Inventory inv = Bukkit.createInventory(null, 9, ChatColor.RED.toString() + ChatColor.BOLD + "Brew");
+
+		Potion speed = new Potion(PotionType.SPEED, 2);
+		
+		Potion hpSplash = new Potion(PotionType.INSTANT_HEAL, 2);
+		hpSplash.setSplash(true);
+		
+		Potion hpDrink = new Potion(PotionType.INSTANT_HEAL, 2);
+		hpDrink.setSplash(false);
+
+		ItemStack s = speed.toItemStack(1);
+		ItemStack hps = hpSplash.toItemStack(1);
+		ItemStack hpd = hpDrink.toItemStack(1);
+		
+		ItemMeta sMeta = s.getItemMeta();
+		ItemMeta hpsMeta = hps.getItemMeta();
+		ItemMeta hpdMeta = hpd.getItemMeta();
+		
+		sMeta.setDisplayName(ChatColor.AQUA.toString() + "Speed 2");
+		hpsMeta.setDisplayName(ChatColor.RED.toString() + "Splash Health Potion 2");
+		hpdMeta.setDisplayName(ChatColor.RED.toString() + "Drinkable Health Potion 2");
+		
+		sMeta.setLore(Arrays.asList(ChatColor.GOLD.toString() + ChatColor.STRIKETHROUGH + "------------------------", ChatColor.GRAY + "1x Netherwart", ChatColor.GRAY + "1x Sugar", ChatColor.GRAY + "1x Glowstone Dust", ChatColor.GOLD.toString() + ChatColor.STRIKETHROUGH + "------------------------"));
+		hpsMeta.setLore(Arrays.asList(ChatColor.GOLD.toString() + ChatColor.STRIKETHROUGH + "------------------------", ChatColor.GRAY + "1x Netherwart", ChatColor.GRAY + "1x Glistering Melon", ChatColor.GRAY + "1x Glowstone Dust", ChatColor.GRAY + "1x Gun Powder",ChatColor.GOLD.toString() + ChatColor.STRIKETHROUGH + "------------------------"));
+		hpdMeta.setLore(Arrays.asList(ChatColor.GOLD.toString() + ChatColor.STRIKETHROUGH + "------------------------", ChatColor.GRAY + "1x Netherwart", ChatColor.GRAY + "1x Glistering Melon", ChatColor.GRAY + "1x Glowstone Dust",ChatColor.GOLD.toString() + ChatColor.STRIKETHROUGH + "------------------------"));
+		
+		s.setItemMeta(sMeta);
+		hps.setItemMeta(hpsMeta);
+		hpd.setItemMeta(hpdMeta);
+		
+		inv.setItem(1, s);
+		inv.setItem(4, hps);
+		inv.setItem(7, hpd);
+		
+		player.openInventory(inv);
 	}
 	
 }

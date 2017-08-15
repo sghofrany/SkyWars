@@ -35,24 +35,17 @@ public class ArenaCenterEvents implements Listener {
 			return;
 		}
 		
-		
-		if(arena.getPlayers().contains(player.getName())) {
-		
-			if(!(event.getFrom().getBlockX() == event.getTo().getBlockX() && event.getFrom().getBlockZ() == event.getTo().getBlockZ())) {
-				
-				Location loc = player.getLocation();
-				
-				if(arena.getCenter().distance(loc) >= 70) {
-					player.setVelocity(player.getVelocity().multiply(-2));
-					//player.teleport(arena.getCenter());
-					player.sendMessage(ChatColor.RED + "Reached arena border, teleported to the center");
-					
-				}
-			
+		if (arena.getPlayers().contains(player.getName()) || arena.getSpectators().contains(player.getName())) {
+
+			Location loc = player.getLocation();
+
+			if (arena.getCenter().distance(loc) >= 70 && loc.getBlockY() > 20) {
+				player.teleport(arena.getCenter());
+				player.sendMessage(ChatColor.RED + "Reached arena border, teleported to the center");
 			}
-			
-		} 
-		
+
+		}
+
 	}
 	
 	@EventHandler
@@ -80,6 +73,8 @@ public class ArenaCenterEvents implements Listener {
 
 			Location loc = event.getBlock().getLocation();
 
+			System.out.println(arena.getCenter().distance(loc));
+			
 			if (arena.getCenter().distance(loc) >= 70) {
 
 				event.setCancelled(true);
